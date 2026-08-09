@@ -1,0 +1,10 @@
+# 기본적으로 모든 파일을 제외하고 설계 원본과 출력물만 추적합니다.
+*
+
+!/.gitignore
+!/.gitattributes
+!/README.md
+!/FCstd/
+!/FCstd/**
+!/STL/
+!/STL/**
