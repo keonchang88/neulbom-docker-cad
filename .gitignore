@@ -4,10 +4,8 @@
 !/.gitignore
 !/.gitattributes
 !/README.md
-!/FCstd/
-!/FCstd/**
-!/STL/
-!/STL/**
+!/neulbom_docker/
+!/neulbom_docker/**
 !/neulbom_pod/
 !/neulbom_pod/**
 
