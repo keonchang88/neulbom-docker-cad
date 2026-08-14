@@ -8,6 +8,8 @@
 !/FCstd/**
 !/STL/
 !/STL/**
+!/neulbom_pod/
+!/neulbom_pod/**
 
 # FreeCAD 자동 백업은 설계 이력에 포함하지 않습니다.
 *.FCBak

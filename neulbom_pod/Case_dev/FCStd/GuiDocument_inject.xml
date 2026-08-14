@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Document SchemaVersion="1">
+<ViewProviderData Count="8">
+<ViewProvider name="UPS_X1200" expanded="0"><Properties Count="1" TransientCount="0"><Property name="Visibility" type="App::PropertyBool" status="1"><Bool value="true"/></Property></Properties></ViewProvider>
+<ViewProvider name="Battery1" expanded="0"><Properties Count="1" TransientCount="0"><Property name="Visibility" type="App::PropertyBool" status="1"><Bool value="true"/></Property></Properties></ViewProvider>
+<ViewProvider name="Battery2" expanded="0"><Properties Count="1" TransientCount="0"><Property name="Visibility" type="App::PropertyBool" status="1"><Bool value="true"/></Property></Properties></ViewProvider>
+<ViewProvider name="RPi5" expanded="0"><Properties Count="1" TransientCount="0"><Property name="Visibility" type="App::PropertyBool" status="1"><Bool value="true"/></Property></Properties></ViewProvider>
+<ViewProvider name="AIHAT_Assembly" expanded="0"><Properties Count="1" TransientCount="0"><Property name="Visibility" type="App::PropertyBool" status="1"><Bool value="true"/></Property></Properties></ViewProvider>
+<ViewProvider name="Camera3_Std" expanded="0"><Properties Count="1" TransientCount="0"><Property name="Visibility" type="App::PropertyBool" status="1"><Bool value="true"/></Property></Properties></ViewProvider>
+<ViewProvider name="Case_Bottom" expanded="0"><Properties Count="3" TransientCount="0"><Property name="Visibility" type="App::PropertyBool" status="1"><Bool value="true"/></Property><Property name="Transparency" type="App::PropertyPercent"><Integer value="70"/></Property><Property name="ShapeColor" type="App::PropertyColor"><PropertyColor value="863164416"/></Property></Properties></ViewProvider>
+<ViewProvider name="Case_Top" expanded="0"><Properties Count="3" TransientCount="0"><Property name="Visibility" type="App::PropertyBool" status="1"><Bool value="true"/></Property><Property name="Transparency" type="App::PropertyPercent"><Integer value="70"/></Property><Property name="ShapeColor" type="App::PropertyColor"><PropertyColor value="4287371520"/></Property></Properties></ViewProvider>
+</ViewProviderData>
+<Camera settings=""/>
+</Document>
