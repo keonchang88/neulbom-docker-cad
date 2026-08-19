@@ -4,7 +4,7 @@ import FreeCAD as App
 import Part
 from FreeCAD import Vector, Placement
 
-OUT = "/tmp/claude-1001/-home-a15209-Documents-CAD/ca39e572-5f98-49a9-b15e-41793413cb46/scratchpad/rebuild_case_result.txt"
+OUT = "/tmp/claude-1001/-home-a15209-Documents-neulbom-docker-cad/a59d395a-4777-424f-8da4-9ac6f5e69d45/scratchpad/rebuild_case_result.txt"
 lines = []
 doc = App.openDocument("/home/a15209/Documents/neulbom-docker-cad/neulbom_pod/Case_dev/FCStd/CaseStatic.FCStd")
 
@@ -56,6 +56,11 @@ TOP_VENTS = [
 ]
 POST_TOP = -0.30              # post top 0.3 below X1200 PCB bottom (print tolerance margin)
 POST_STRIPS = [(0.7, 4.7), (51.3, 55.3)]  # y strips along X1200 edges
+# magnet plate skirt pocket (neulbom_docker pod plate 30x90x8, magnets 2x D21 pockets, 48.45 pitch)
+PLATE_L, PLATE_W, PLATE_T = 90.0, 30.0, 8.0  # plate long axis along case X, centered
+PLATE_CLR = 0.2      # pocket clearance per side (glued fit)
+PLATE_PROUD = 0.1    # plate magnet face proud of skirt rim (guarantees magnet contact on docker)
+SKIRT_Z0 = OUT_['z0'] - PLATE_T + PLATE_PROUD  # skirt bottom rim (new bed face)
 # --------------------------------------------
 
 cam = doc.getObject("Camera3_Std")
@@ -178,6 +183,19 @@ for (px, sy0, sy1) in posts:
     bottom = bottom.fuse(box(px, px + POST_W, sy0, sy1, CAV['z0'] - 1.0, POST_TOP))
     lines.append("bottom post: X %.1f..%.1f Y %.1f..%.1f top %.2f" % (px, px + POST_W, sy0, sy1, POST_TOP))
 
+# ---- magnet plate skirt pocket on bottom underside ----
+_cx = (OUT_['x0'] + OUT_['x1']) / 2.0
+_cy = (OUT_['y0'] + OUT_['y1']) / 2.0
+skirt = box(OUT_['x0'], OUT_['x1'], OUT_['y0'], OUT_['y1'], SKIRT_Z0, OUT_['z0'])
+pocket = box(_cx - PLATE_L/2 - PLATE_CLR, _cx + PLATE_L/2 + PLATE_CLR,
+             _cy - PLATE_W/2 - PLATE_CLR, _cy + PLATE_W/2 + PLATE_CLR,
+             SKIRT_Z0 - 1.0, OUT_['z0'] + 1.0)
+bottom = bottom.fuse(skirt.cut(pocket))
+lines.append("plate skirt: pocket X %.2f..%.2f Y %.2f..%.2f z %.2f..%.2f (plate proud %.2f, magnets at X %.2f/%.2f)" % (
+    _cx - PLATE_L/2 - PLATE_CLR, _cx + PLATE_L/2 + PLATE_CLR,
+    _cy - PLATE_W/2 - PLATE_CLR, _cy + PLATE_W/2 + PLATE_CLR,
+    SKIRT_Z0, OUT_['z0'], PLATE_PROUD, _cx - 24.225, _cx + 24.225))
+
 bottom = bottom.removeSplitter()
 top = top.removeSplitter()
 
@@ -213,7 +231,7 @@ def apply_fillets(sh, zrim, tag):
     lines.append("%s rim chamfer C%.1f (%d edges) valid=%s" % (tag, CHAM_R, len(rim), s3.isValid()))
     return s3 if s3.isValid() else (s2 if s2.isValid() else sh)
 
-bottom = apply_fillets(bottom, OUT_['z0'], "bottom")
+bottom = apply_fillets(bottom, SKIRT_Z0, "bottom")
 top = apply_fillets(top, OUT_['z1'], "top")
 
 doc.getObject("Case_Bottom").Shape = bottom
