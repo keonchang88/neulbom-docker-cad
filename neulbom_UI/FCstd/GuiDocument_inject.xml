@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Document SchemaVersion="1">
+<ViewProviderData Count="1">
+<ViewProvider name="XiaoxinPadPro127_Dummy" expanded="0"><Properties Count="1" TransientCount="0"><Property name="Visibility" type="App::PropertyBool" status="1"><Bool value="true"/></Property></Properties></ViewProvider>
+</ViewProviderData>
+<Camera settings=""/>
+</Document>

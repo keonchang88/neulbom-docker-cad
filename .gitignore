@@ -10,6 +10,8 @@
 !/neulbom_pod/**
 !/assembly/
 !/assembly/**
+!/neulbom_UI/
+!/neulbom_UI/**
 
 # FreeCAD 자동 백업은 설계 이력에 포함하지 않습니다.
 *.FCBak
