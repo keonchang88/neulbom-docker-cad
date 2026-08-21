@@ -4,13 +4,13 @@ import FreeCAD as App
 import Part
 from FreeCAD import Vector, Placement
 
-OUT = "/tmp/claude-1001/-home-a15209-Documents-neulbom-docker-cad/a59d395a-4777-424f-8da4-9ac6f5e69d45/scratchpad/rebuild_case_result.txt"
+OUT = "/tmp/claude-1001/-home-a15209-Documents-neulbom-docker-cad/d97694ff-7bc2-4a72-83f0-e184d44f4652/scratchpad/rebuild_case_result.txt"
 lines = []
 doc = App.openDocument("/home/a15209/Documents/neulbom-docker-cad/neulbom_pod/Case_dev/FCStd/CaseStatic.FCStd")
 
 # ---------------- parameters ----------------
-CAV = dict(x0=-4.60, x1=89.55, y0=-3.00, y1=58.00, z0=-21.50, z1=50.70)
-OUT_ = dict(x0=-7.00, x1=91.95, y0=-5.40, y1=60.40, z0=-23.90, z1=53.10)  # wall 2.4mm
+CAV = dict(x0=-4.60, x1=89.55, y0=-3.00, y1=58.00, z0=-21.50, z1=45.70)  # ceiling -5mm (camera lowered)
+OUT_ = dict(x0=-7.00, x1=91.95, y0=-5.40, y1=60.40, z0=-23.90, z1=48.10)  # wall 2.4mm
 SPLIT = 8.0
 FIL_V = 2.0   # vertical corner fillet (both halves)
 CHAM_R = 1.5  # top/bottom rim chamfer (45deg, bed-side edge: FDM-safe)
@@ -27,13 +27,13 @@ OPENINGS = [
 ]
 # camera
 CAM_HOLES = [(13.5, 3.5), (26.0, 3.5), (13.5, 24.5), (26.0, 24.5)]
-CAM_SEAT = 45.25
-CAM_LINK_Z = 44.55  # camera link z (11mm gap to AI HAT PCB top, clears measured 10mm heatsink +1mm)
+CAM_SEAT = 40.25
+CAM_LINK_Z = 39.55  # camera link z (6mm gap to AI HAT PCB top; heatsink remeasured lower than 10mm)
 CAM_LINK_X = 11.5   # camera link x (moved +10mm)
 BOSS_R, PIN_R, PIN_LEN = 2.5, 1.0, 1.7
 LENS_SQ = (20.15, 31.65, 8.25, 19.75)  # square lens hole X0,X1,Y0,Y1
 # lip
-LIP_H, LIP_IN, LIP_OUTX, REC_OUT, REC_TOPCLR = 3.0, 0.15, 1.15, 1.35, 0.2  # lip 1.0t
+LIP_H, LIP_IN, LIP_OUTX, REC_OUT, REC_TOPCLR = 6.0, 0.15, 1.15, 1.35, 0.2  # lip 1.0t, height 2x (joint length)
 # stack mount (plan A): HAT corner guides + ledges (top), X1200 support posts (bottom)
 HAT = dict(x0=0.0, x1=65.0, y0=0.0, y1=56.5, zbot=28.40)  # AI HAT PCB footprint, bottom z (20mm spacer on Pi PCB top 8.396, measured)
 HAT_LINK_Z = 28.40  # AIHAT_Assembly link z (= HAT zbot)
@@ -47,7 +47,7 @@ HAT_ZTOP = 30.95
 POST_W, POST_D = 6.0, 4.0     # bottom support post XY size
 # ventilation (FDM: slit 3.0 wide, rib 2.0 — both above min-feature limits)
 VENT_W, VENT_PITCH = 3.0, 5.0
-WALL_VENT = dict(x0=8.0, x1=81.0, z0=11.5, z1=27.4)  # +Y wall intake, active-cooler level (top just below G_ZBOT)
+WALL_VENT = dict(x0=23.0, x1=66.0, z0=14.5, z1=27.4)  # +Y wall intake, active-cooler level (bottom clears lip recess top 14.2, top just below G_ZBOT; 3 slits dropped each side for wall strength)
 # top-face exhaust zones over Hailo heatsink (avoid lens hole/bosses y<=27, x<=38; guides/ribs at rims)
 TOP_VENTS = [
     (40.0, 63.0,  6.0, 52.0),   # right of camera
@@ -119,7 +119,8 @@ def ring(ei, eo, z0, z1):
 lip = ring(LIP_IN, LIP_OUTX, SPLIT, SPLIT+LIP_H)
 for (_n, x0, x1, y0, y1, z0, z1, crosses) in OPENINGS:
     if crosses:
-        lip = lip.cut(box(x0, x1, y0, y1, z0, z1))
+        # lip break spans full lip height (openings shorter than lip top would leave a thin lip sliver)
+        lip = lip.cut(box(x0, x1, y0, y1, z0, max(z1, SPLIT + LIP_H + 0.5)))
 bottom = bottom.fuse(lip)
 top = top.cut(ring(0.0, REC_OUT, SPLIT, SPLIT+LIP_H+REC_TOPCLR))
 
@@ -142,13 +143,13 @@ for (cx, cy, sx, sy) in [(hx0, hy0, -1, -1), (hx1, hy0, +1, -1), (hx0, hy1, -1, 
     lyy = (CAV['y0'] - 0.5, cy) if sy < 0 else (cy, min(cy + G_T, CAV['y1'] + 0.5))  # -Y legs merge into wall
     lxx = (CAV['x0'] - 0.5, cx + G_LEG) if sx < 0 else (cx - G_LEG, cx + G_T)
     guide_parts.append(box(lxx[0], lxx[1], lyy[0], lyy[1], gz0, gz1))
-    # stop tab ABOVE HAT top edge, -Y corners only (clears heatsink/camera, allows insertion)
-    if sy < 0:
-        tx = (cx, cx + STOP_W) if sx < 0 else (cx - STOP_W, cx)
-        guide_parts.append(box(tx[0], tx[1], cy + 1.75, cy + 7.75, HAT_ZTOP + STOP_CLR, CAV['z1'] + 0.3))
+    # stop tab ABOVE HAT top edge, all 4 corners (tab hugs board edge, clears corner screws/heatsink)
+    tx = (cx, cx + STOP_W) if sx < 0 else (cx - STOP_W, cx)
+    ty = (cy + 1.75, cy + 7.75) if sy < 0 else (cy - 7.75, cy - 1.75)
+    guide_parts.append(box(tx[0], tx[1], ty[0], ty[1], HAT_ZTOP + STOP_CLR, CAV['z1'] + 0.3))
 for g in guide_parts:
     top = top.fuse(g)
-lines.append("HAT corner guides: 4 (legs %0.1ft x %0.1f long, z %.1f..%.1f) + 2 stop tabs above HAT top (clr %.2f)" % (G_T, G_LEG, gz0, gz1, STOP_CLR))
+lines.append("HAT corner guides: 4 (legs %0.1ft x %0.1f long, z %.1f..%.1f) + 4 stop tabs above HAT top (clr %.2f)" % (G_T, G_LEG, gz0, gz1, STOP_CLR))
 
 # ---- plan A: bottom support posts under X1200 PCB edges ----
 obst = []
