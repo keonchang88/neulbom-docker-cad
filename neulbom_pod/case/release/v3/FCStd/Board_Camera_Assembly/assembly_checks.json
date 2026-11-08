@@ -1,0 +1,27 @@
+{
+  "placements": {
+    "Bottom": "Placement [Pos=(0,0,0), Yaw-Pitch-Roll=(0,0,0)]",
+    "Top": "Placement [Pos=(0,0,0), Yaw-Pitch-Roll=(0,0,0)]",
+    "RPi5": "Placement [Pos=(0,-0.5,0), Yaw-Pitch-Roll=(0,0,0)]",
+    "AIHATPlus2": "Placement [Pos=(0,-0.5,17.276), Yaw-Pitch-Roll=(0,0,0)]",
+    "Camera": "Placement [Pos=(11.5,26.5,30.5058), Yaw-Pitch-Roll=(0,0,180)]",
+    "BottomSpacers": "Placement [Pos=(0,0,0), Yaw-Pitch-Roll=(0,0,0)]"
+  },
+  "intersections": {
+    "Bottom / RPi5": 0.0,
+    "Bottom / AIHATPlus2": 0.0,
+    "Top / RPi5": 0.0,
+    "Top / AIHATPlus2": 0.0,
+    "Top / Camera": 0.00021935432189836072,
+    "RPi5 / AIHATPlus2": 0.0,
+    "Camera / AIHATPlus2": 0.0
+  },
+  "valid": {
+    "Bottom": true,
+    "Top": true,
+    "RPi5": true,
+    "AIHATPlus2": true,
+    "Camera": true,
+    "BottomSpacers": true
+  }
+}

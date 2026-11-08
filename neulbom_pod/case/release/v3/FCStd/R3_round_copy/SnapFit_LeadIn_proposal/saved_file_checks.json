@@ -1,0 +1,32 @@
+{
+  "Case_Top_R3_SnapFit_LeadIn.FCStd": [
+    {
+      "name": "CaseTopFlourishCameraFlower",
+      "valid": true,
+      "solids": 1,
+      "volume": 37737.97023298165
+    }
+  ],
+  "Case_Bottom_R3_SnapFit_LeadIn.FCStd": [
+    {
+      "name": "CaseBottomDropSlide",
+      "valid": true,
+      "solids": 1,
+      "volume": 30526.5680119707
+    }
+  ],
+  "Case_Assemble_R3_SnapFit_LeadIn.FCStd": [
+    {
+      "name": "Bottom",
+      "valid": true,
+      "solids": 1,
+      "volume": 30526.5680119707
+    },
+    {
+      "name": "Top",
+      "valid": true,
+      "solids": 1,
+      "volume": 37737.97023298165
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "assembly": "/home/a15196/workspace/freecad/drawing/neulbom_docker/mount/stroller_mount/FCstd/6_stroller_mount_assembly_Top_height_matched.FCStd",
+  "backup": "/home/a15196/workspace/freecad/drawing/neulbom_docker/mount/stroller_mount/FCstd/6_stroller_mount_assembly_Top_height_matched_backup_20261013_174940.FCStd",
+  "parts": [
+    {
+      "object": "BallMount17",
+      "source": "1_obj_BallMount17_M25x6_outer_R1p00.FCStd",
+      "valid": true,
+      "solids": 1,
+      "volume": 16472.975953548324
+    },
+    {
+      "object": "BallSocket",
+      "source": "2_obj_BallSocket_M25x6_outer_R1p00_Top_height.FCStd",
+      "valid": true,
+      "solids": 1,
+      "volume": 24778.85804620117
+    },
+    {
+      "object": "Base",
+      "source": "3_obj_Base_M25x6_engraving_depth_0p60_smooth_border_R1p00.FCStd",
+      "valid": true,
+      "solids": 1,
+      "volume": 55918.86230592242
+    },
+    {
+      "object": "Slider",
+      "source": "4_obj_Base_Slider_M25x6_symmetric_R1p00.FCStd",
+      "valid": true,
+      "solids": 1,
+      "volume": 23757.22886242644
+    },
+    {
+      "object": "Screw",
+      "source": "5_obj_vite_root_R1p5_knob_2of3.FCStd",
+      "valid": true,
+      "solids": 1,
+      "volume": 6283.67218756564
+    },
+    {
+      "object": "ScrewFullKnobAlternative",
+      "source": "5_obj_vite_root_R1p5.FCStd",
+      "valid": true,
+      "solids": 1,
+      "volume": 10693.53681884468
+    }
+  ],
+  "top_height_difference": 0.0,
+  "additional_parts": [
+    "PodClamp",
+    "Magnet_Reference_1",
+    "Magnet_Reference_2",
+    "PodClampBall",
+    "BallNut"
+  ],
+  "note": "Embedded shapes; SourceFile is metadata, not a live external link."
+}

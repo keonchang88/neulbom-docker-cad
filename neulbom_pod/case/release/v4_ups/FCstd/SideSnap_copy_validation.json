@@ -1,0 +1,14 @@
+{
+  "top_valid": true,
+  "bottom_valid": true,
+  "top_solids": 1,
+  "bottom_solids": 1,
+  "mating_intersection_mm3": 0.0,
+  "original_files_unchanged": true,
+  "tab_root_radius_mm": 0.15,
+  "outputs": [
+    "1_Case_Top_SnapFit_V4_release_SideSnap_copy.FCStd",
+    "2_Case_Bottom_SnapFit_V4_release_SideSnap_copy.FCStd",
+    "3_Case_Assemble_SnapFit_V4_release_SideSnap_copy.FCStd"
+  ]
+}
